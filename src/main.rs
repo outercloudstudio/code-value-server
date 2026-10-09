@@ -4,7 +4,6 @@ use axum::{
     Router,
 };
 use axum::http::StatusCode;
-use axum_server::tls_rustls::RustlsConfig;
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
 use std::collections::HashMap;
@@ -103,13 +102,9 @@ async fn main() {
         .route("/create", post(create))
         .with_state(lookup_state);
 
-    let config = RustlsConfig::from_pem_file("cert.pem", "key.pem")
-        .await
-        .unwrap();
-
     let addr = SocketAddr::from(([0, 0, 0, 0], 8080));
 
-    axum_server::bind_rustls(addr, config)
+    axum_server::bind(addr)
         .serve(app.into_make_service())
         .await
         .unwrap();
