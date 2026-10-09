@@ -102,7 +102,7 @@ async fn main() {
         .route("/create", post(create))
         .with_state(lookup_state);
 
-    let addr = SocketAddr::from(([0, 0, 0, 0], 8080));
+    let addr = SocketAddr::from(([0, 0, 0, 0], 25568));
 
     axum_server::bind(addr)
         .serve(app.into_make_service())
